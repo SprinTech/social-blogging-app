@@ -21,4 +21,11 @@ def index():
             session['known'] = True
         session['name'] = form.name.data
         return redirect(url_for("main.index"))
-    return render_template("index.html", form=form, name=session.get('name'), known=session.get('known', False), current_time=datetime.utcnow())
+    return render_template("index.html", form=form, name=session.get('name'), known=session.get('known', False),
+                           current_time=datetime.utcnow())
+
+
+@main.route("/user/<username>")
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template("user.html", user=user)
